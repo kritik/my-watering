@@ -1,0 +1,11 @@
+<h3>Add pipe</h3>
+  <form method='post' action='/pipes'>
+    <% if pipe[:id] %>
+      <input type="hidden" name='id' value='<%=pipe[:id]%>'/><br>
+    <% end %>
+    <input name='name' value='<%=pipe[:name]%>' placeholder='Pipe name'/><br>
+    <input name='group' value='<%=pipe[:group]%>' placeholder='Group name'/><br>
+    <input name='pin' value='<%=pipe[:pin]%>' placeholder='Pin'/><br>
+    <input type='checkbox' name='is_active' value='1' <%= 'checked' if pipe[:is_active] %>/> Is active<br>
+    <button>Submit</button>
+  </form>
