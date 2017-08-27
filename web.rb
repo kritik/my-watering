@@ -2,9 +2,7 @@
 # opkg install ruby-enc-extra
 require 'rack'
 require 'sinatra'
-require 'sinatra/reloader' if development?
 require 'sequel'
-require 'pry'
 
 DB = Sequel.sqlite
 DB.create_table :pipes do
