@@ -26,7 +26,6 @@ id=DB[:pipes].insert(name: "Default", group: "Back of home", pin: 1)
 DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now, switch_off_at: Time.now+3600*2)
 DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now+3600*2, switch_off_at: Time.now+3600*3, repeat: "every week Sunday")
 require './pipe.rb'
-p Pipe.first.active?
 
 
 enable :sessions
