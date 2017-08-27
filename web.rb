@@ -1,3 +1,5 @@
+# opkg install ruby-readline ruby-openssl ruby-irb ruby-gems ruby ruby-json
+# opkg install ruby-enc-extra
 require 'rack'
 require 'sinatra'
 require 'sinatra/reloader' if development?
