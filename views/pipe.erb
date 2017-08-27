@@ -1,5 +1,5 @@
 <h1>Current watering: <%=pipe[:name]%></h1>
-<p>Status: right now water <%= pipe[:active] ? "is going" : "turned off"%> (pin <%=pipe[:pin]%>)</p>
+<p>Status: right now water <%= pipe.active? ? "is going" : "turned off"%> (pin <%=pipe[:pin]%>)</p>
 <p>Turn on for <input name="timeout" value="15m"></p>
 <h3>Timetable:</h3>
 <table>

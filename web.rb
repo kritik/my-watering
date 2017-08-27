@@ -19,7 +19,6 @@ DB.create_table :crons do
   Datetime :switch_on_at
   Datetime :switch_off_at
   String   :repeat
-  Boolean :is_active, default: false
 end
 
 id=DB[:pipes].insert(name: "Default", group: "Back of home", pin: 1)
@@ -38,8 +37,8 @@ end
 
 get '/pipes' do
   str = "<table><tr><th>ID</th><th>Name</th><th>Info</th><th></th></tr>"
-  DB[:pipes].each do |pipe|
-    str << "<tr><td>#{pipe[:id]}</td><td>#{pipe[:name]}</td><td>#{pipe.inspect}</td><td><a href='/pipes/#{pipe[:id]}'>Show</a><a href='/pipes/#{pipe[:id]}/edit'>Edit</a></td></tr>"
+  Pipe.each do |pipe|
+    str << "<tr><td>#{pipe.id}</td><td>#{pipe.name}</td><td>#{pipe.inspect}</td><td><a href='/pipes/#{pipe.id}'>Show</a><a href='/pipes/#{pipe.id}/edit'>Edit</a></td></tr>"
   end
   str << "</table>"
   str << "<br> <a href='/pipes/new'>Add new</a>"
@@ -50,24 +49,23 @@ get '/pipes/new' do
 end
 
 get '/pipes/:id' do
-  pipe = DB[:pipes].find(params[:id]).first
+  pipe = Pipe.find(params[:id])
   erb :pipe, locals: {pipe: pipe, crons: DB[:crons]}
 end
 
 get '/pipes/:id/turnon/:time' do
-  pipe = DB[:pipes].find(params[:id]).first
+  pipe = Pipe.find(params[:id])
   erb :pipe, locals: {pipe: pipe}
 end
 
 
 get '/pipes/:id/edit' do
-  pipe = DB[:pipes].find(params[:id]).first
+  pipe = Pipe.find(params[:id])
   erb :pipe_form, locals: {pipe: pipe}
 end
 
 post '/pipes' do
-  pipes = DB[:pipes]
-  keys = %i(name group pin is_active)
-  id = pipes.insert(keys.each_with_object({}){|k,h| h[k]=params[k] })
+  keys = %i(name group pin)
+  id = Pipe.insert(keys.each_with_object({}){|k,h| h[k]=params[k] })
   redirect '/pipes'
 end
