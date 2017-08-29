@@ -45,7 +45,7 @@ end
 
 get '/pipes/:id' do
   pipe = Pipe.find(params[:id])
-  erb :pipe, locals: {pipe: pipe, crons: DB[:crons]}
+  erb :pipe, locals: {pipe: pipe, crons: {}}#DB[:crons]}
 end
 
 get '/pipes/:id/turnon/:time' do
