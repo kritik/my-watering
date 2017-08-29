@@ -52,14 +52,14 @@ class Pipe
   end
 
   def active?
-    JSON.parse(`fast-gpio -u read #{pin}`)['val'] == '1'.freeze
+    `fast-gpio read #{pin}`.split(': ').last.strip == '1'.freeze
   rescue Exception => e
     false
   end
   alias active active?
 
   def active= val
-    JSON.parse(`fast-gpio -u set #{pin} #{TRUE_VALUES.include?(val) ? 1 : 0}`) rescue false
+    `fast-gpio set #{pin} #{TRUE_VALUES.include?(val) ? 1 : 0}`.split(': ').last.strip rescue false
   end
 
 end
