@@ -2,28 +2,23 @@
 # opkg install ruby-enc-extra
 require 'rack'
 require 'sinatra'
-require 'sequel'
+# require 'sinatra/reloader'
+# require 'sequel'
+require 'yaml'
 
-DB = Sequel.sqlite
-DB.create_table :pipes do
-  primary_key :id
-  String :name
-  String :group
-  Integer :pin, unique: true
-end
-DB.create_table :crons do
-  primary_key :id
-  Integer  :pipe_id
-  String   :pipe_name
-  String   :name
-  Datetime :switch_on_at
-  Datetime :switch_off_at
-  String   :repeat
-end
-
-id=DB[:pipes].insert(name: "Default", group: "Back of home", pin: 1)
-DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now, switch_off_at: Time.now+3600*2)
-DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now+3600*2, switch_off_at: Time.now+3600*3, repeat: "every week Sunday")
+SDB= "database.yml"
+# DB = Sequel.sqlite
+# DB.create_table :crons do
+#   primary_key :id
+#   Integer  :pipe_id
+#   String   :pipe_name
+#   String   :name
+#   Datetime :switch_on_at
+#   Datetime :switch_off_at
+#   String   :repeat
+# end
+# DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now, switch_off_at: Time.now+3600*2)
+# DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now+3600*2, switch_off_at: Time.now+3600*3, repeat: "every week Sunday")
 require './pipe.rb'
 
 
@@ -66,6 +61,8 @@ end
 
 post '/pipes' do
   keys = %i(name group pin)
-  id = Pipe.insert(keys.each_with_object({}){|k,h| h[k]=params[k] })
+  pipe=Pipe.new(keys.each_with_object({}){|k,h| h[k]=params[k] })
+  pipe.id = params[:id]
+  pipe.save
   redirect '/pipes'
 end
