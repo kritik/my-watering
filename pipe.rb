@@ -1,4 +1,3 @@
-require 'json'
 class Pipe
   TYPE='pipes'
   TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON', 'yes', 'YES', 'Yes'].freeze

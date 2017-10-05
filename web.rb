@@ -1,12 +1,8 @@
 # opkg install ruby-readline ruby-openssl ruby-irb ruby-gems ruby ruby-json
 # opkg install ruby-enc-extra
-require 'rack'
 require 'sinatra'
 # require 'sinatra/reloader'
 # require 'sequel'
-require 'yaml'
-
-SDB= "database.yml"
 # DB = Sequel.sqlite
 # DB.create_table :crons do
 #   primary_key :id
@@ -19,7 +15,7 @@ SDB= "database.yml"
 # end
 # DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now, switch_off_at: Time.now+3600*2)
 # DB[:crons].insert(pipe_id: id, pipe_name: "Default", switch_on_at: Time.now+3600*2, switch_off_at: Time.now+3600*3, repeat: "every week Sunday")
-require './pipe.rb'
+
 
 
 enable :sessions
@@ -62,7 +58,7 @@ end
 post '/pipes' do
   keys = %i(name group pin)
   pipe=Pipe.new(keys.each_with_object({}){|k,h| h[k]=params[k] })
-  pipe.id = params[:id]
+  pipe.id = params[:id] if params[:id]
   pipe.save
   redirect '/pipes'
 end
